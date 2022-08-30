@@ -13,22 +13,24 @@ namespace Currency_exchange.Services
     public class CurrencyService : ICurrencyService
     {
         private readonly IConfiguration _configuration;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public CurrencyService(IConfiguration configuration)
+        public CurrencyService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
             _configuration = configuration;
+            _httpClientFactory = httpClientFactory;
         }
         public async Task<List<CurrencyResponse>> Get(string table)
         {
             var nbpUrl = _configuration.GetSection("MyUrl").GetSection("NbpUrl").Value;
             var url = $"{nbpUrl}{table}";
 
-            using (var httpClient = new HttpClient())
-            {
-                var response = await httpClient.GetStringAsync(url);
-                var myDeserializedClass = JsonConvert.DeserializeObject<List<CurrencyResponse>>(response);
-                return myDeserializedClass;
-            }
+            var client = _httpClientFactory.CreateClient();
+
+            var response = await client.GetStringAsync(url);
+            var myDeserializedClass = JsonConvert.DeserializeObject<List<CurrencyResponse>>(response);
+            return myDeserializedClass;
+
         }
     }
 }
