@@ -11,9 +11,9 @@ namespace Currency_exchange.Models
         public int Id { get; set; }
         public string Currency { get; set; }
         public string Code { get; set; }
-        public double Mid { get; set; }
-        public double Bid { get; set; }
-        public double Ask { get; set; }
+        public decimal Mid { get; set; }
+        public decimal Bid { get; set; }
+        public decimal Ask { get; set; }
         public CurrencyResponse CurrencyResponse { get; set; }
         public int CurrencyResponseId { get; set; }
     }

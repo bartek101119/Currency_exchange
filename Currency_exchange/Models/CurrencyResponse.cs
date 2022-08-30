@@ -15,7 +15,5 @@ namespace Currency_exchange.Models
         public string TradingDate { get; set; }
         public List<Rate> Rates { get; set; } = new List<Rate>();
     }
-
-    
 }
 

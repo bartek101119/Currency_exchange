@@ -18,19 +18,19 @@ namespace Currency_exchange.Data
             _service = service;
         }
 
-        public void Seed()
+        public async Task Seed()
         {
-            if (_context.Database.CanConnect())
+            if (await _context.Database.CanConnectAsync())
             {
                 if (!_context.Currencies.Any())
                 {
-                    var currenciesResponseA = _service.Get("A");
-                    var currenciesResponseB = _service.Get("B");
-                    var currenciesResponseC = _service.Get("C");
+                    var currenciesResponseA = await _service.Get("A");
+                    var currenciesResponseB = await _service.Get("B");
+                    var currenciesResponseC = await _service.Get("C");
                     _context.Currencies.AddRange(currenciesResponseA);
                     _context.Currencies.AddRange(currenciesResponseB);
                     _context.Currencies.AddRange(currenciesResponseC);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
             }
         }

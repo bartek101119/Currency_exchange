@@ -14,10 +14,10 @@ namespace Currency_exchange.Controllers
             _currencyService = currencyService;
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             // change letter
-            var currenciesResponse = _currencyService.Get("C");
+            var currenciesResponse = await _currencyService.Get("C");
             return View(currenciesResponse);
         }
     }

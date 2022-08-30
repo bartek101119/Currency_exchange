@@ -12,16 +12,23 @@ namespace Currency_exchange.Services
 {
     public class CurrencyService : ICurrencyService
     {
-        public List<CurrencyResponse> Get(string table)
+        private readonly IConfiguration _configuration;
+
+        public CurrencyService(IConfiguration configuration)
         {
-            var url = $"http://api.nbp.pl/api/exchangerates/tables/{table}/";
+            _configuration = configuration;
+        }
+        public async Task<List<CurrencyResponse>> Get(string table)
+        {
+            var nbpUrl = _configuration.GetSection("MyUrl").GetSection("NbpUrl").Value;
+            var url = $"{nbpUrl}{table}";
 
-            var web = new WebClient();
-
-            var response = web.DownloadString(url);
-            var myDeserializedClass = JsonConvert.DeserializeObject<List<CurrencyResponse>>(response);
-
-            return myDeserializedClass;
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetStringAsync(url);
+                var myDeserializedClass = JsonConvert.DeserializeObject<List<CurrencyResponse>>(response);
+                return myDeserializedClass;
+            }
         }
     }
 }

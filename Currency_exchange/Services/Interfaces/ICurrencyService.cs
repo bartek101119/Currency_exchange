@@ -9,6 +9,6 @@ namespace Currency_exchange.Services.Interfaces
 {
     public interface ICurrencyService
     {
-        List<CurrencyResponse> Get(string table);
+        Task<List<CurrencyResponse>> Get(string table);
     }
 }
