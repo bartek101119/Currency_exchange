@@ -1,0 +1,77 @@
+﻿@model IEnumerable<CurrencyResponse>
+@{
+    ViewData["Title"] = "Index";
+}
+@foreach (var obj in Model)
+{
+    <div>
+        <h5>Table: @obj.Table</h5>
+        <h5>Table number: @obj.No</h5>
+        <h5>Date of publication: @obj.EffectiveDate</h5>
+        @if (obj.Table == "C")
+        {
+            <h5>Quotation date: @obj.TradingDate</h5>
+        }
+    </div>
+}
+<table class="table table-bordered table-striped" style="width: 100%">
+    <thead>
+    <tr>
+        <th>
+            Currency
+        </th>
+        <th>
+            Code
+        </th>
+    @foreach (var obj in Model)
+    {
+        @if (obj.Table != "C")
+        {
+            <th>
+                Mid
+            </th>
+        }
+        else
+        {
+            <th>
+                Bid
+            </th>
+            <th>
+                Ask
+            </th>
+        }
+    }
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            foreach (var element in obj.Rates)
+            {
+                <tr>
+                    <td width="50%">
+                        @element.Currency
+                    </td>
+                    <td width="50%">
+                        @element.Code
+                    </td>
+                    @if (obj.Table != "C")
+                    {
+                        <td width="50%">
+                            @element.Mid
+                        </td>
+                    }
+                    else
+                    {
+                        <td width="50%">
+                            @element.Bid
+                        </td>
+                        <td width="50%">
+                            @element.Ask
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>
