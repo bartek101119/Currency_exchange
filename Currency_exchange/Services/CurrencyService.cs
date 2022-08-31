@@ -22,7 +22,7 @@ namespace Currency_exchange.Services
         }
         public async Task<List<CurrencyResponse>> Get(string table)
         {
-            var nbpUrl = _configuration.GetSection("MyUrl").GetSection("NbpUrl").Value;
+            var nbpUrl = _configuration.GetSection("ApiUrl").GetSection("NbpUrl").Value;
             var url = $"{nbpUrl}{table}";
 
             var client = _httpClientFactory.CreateClient();
